@@ -27,7 +27,7 @@ async def on_message(message):
 
     elif message.content.startswith('!sleep'):
         await asyncio.sleep(5)
-        await client.send(message.channel, 'Done sleeping')
+        await client.send_message(message.channel, 'Done sleeping')
 
     print(str(message.channel)+": "+message.content)
 
