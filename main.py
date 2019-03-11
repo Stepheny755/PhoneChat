@@ -3,6 +3,8 @@ import asyncio
 import time
 import sys
 
+from bot import Bot
+
 token = open('token.txt',"r").read().strip()
 
 client = discord.Client()
@@ -29,8 +31,11 @@ async def on_message(message):
         await asyncio.sleep(5)
         await client.send_message(message.channel, 'Done sleeping')
 
+    elif message.content.startswith('!channels'):
+        await client.send_message(message.channel,client.get_all_channels())
+
     print(str(message.channel)+": "+message.content)
 
 if(__name__=="__main__"):
-    client.run(token)
     print("Bot Started")
+    client.run(token)
