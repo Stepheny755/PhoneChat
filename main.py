@@ -8,6 +8,7 @@ from bot import Bot
 token = open('token.txt',"r").read().strip()
 
 client = discord.Client()
+b = Bot()
 
 @client.event
 async def on_read():
@@ -32,7 +33,9 @@ async def on_message(message):
         await client.send_message(message.channel, 'Done sleeping')
 
     elif message.content.startswith('!channels'):
-        await client.send_message(message.channel,client.get_all_channels())
+        server = message.channel.server
+        temp = b.getChannels(client,server)
+        await client.send_message(message.channel,embed=temp)
 
     print(str(message.channel)+": "+message.content)
 
