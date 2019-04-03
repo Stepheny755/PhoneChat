@@ -4,41 +4,21 @@ import time
 import sys
 
 from bot import Bot
+from flask import flask
+from twilio.twiml.voice_response import VoiceResponse
 
-token = open('token.txt',"r").read().strip()
+app = Flask(__name__)
 
-client = discord.Client()
-b = Bot()
+@app.route("/answer", methods=['GET', 'POST'])
+def answer_call():
+    """Respond to incoming phone calls with a brief message."""
+    # Start our TwiML response
+    resp = VoiceResponse()
 
-@client.event
-async def on_read():
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
+    # Read a message aloud to the caller
+    resp.say("Thank you for calling! Have a great day.", voice='alice')
 
+    return str(resp)
 
-@client.event
-async def on_message(message):
-    if message.content.startswith('!test'):
-        counter = 0
-        tmp = await client.send_message(message.channel, 'Calculating messages...')
-        async for log in client.logs_from(message.channel, limit=100):
-            if log.author == message.author:
-                counter += 1
-        await client.edit_message(tmp, 'You have {} messages.'.format(counter))
-
-    elif message.content.startswith('!sleep'):
-        await asyncio.sleep(5)
-        await client.send_message(message.channel, 'Done sleeping')
-
-    elif message.content.startswith('!channels'):
-        server = message.channel.server
-        temp = b.getChannels(client,server)
-        await client.send_message(message.channel,embed=temp)
-
-    print(str(message.channel)+": "+message.content)
-
-if(__name__=="__main__"):
-    print("Bot Started")
-    client.run(token)
+if __name__ == "__main__":
+    app.run(debug=True)
