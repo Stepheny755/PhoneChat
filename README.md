@@ -2,7 +2,7 @@
 
 ## Requirements
 
-### Required Dependencies:
+##### Required Dependencies:
 
 `apt install libffi-dev libnacl-dev python3-dev`
 
